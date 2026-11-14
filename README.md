@@ -109,9 +109,10 @@ docker compose up -d
 
 ### 2. 导入应用
 
-Dify 控制台 → 工作室 → 创建 → **导入 DSL** → 选 `app/jiangshu.dsl.yml`
+Dify 控制台 → 工作室 → 创建 → **导入应用包** → 选 `app/jiangshu.ifpkg`
 
-> ⚠️ DSL 不含模型配置和知识库，需要自己配。
+> 也支持导入 `app/jiangshu.dsl.yml`（纯 DSL，兼容旧版本）。
+> ⚠️ 应用包不含模型配置和知识库，需要自己配。
 
 ### 3. 配模型
 
@@ -152,11 +153,13 @@ Dify 控制台 → 工作室 → 创建 → **导入 DSL** → 选 `app/jiangshu
 ```
 jiangshu/
 ├── app/
-│   └── jiangshu.dsl.yml          # Dify 应用 DSL（需自行导出）
+│   ├── jiangshu.ifpkg            # Dify 应用包，直接导入
+│   ├── jiangshu.dsl.yml          # 纯 DSL，兼容旧版导入
+│   └── README.md                 # 导入说明
 ├── knowledge/
 │   ├── cards/
 │   │   └── injection-defect-cards.md   # 15 张缺陷卡
-│   └── README.md                 # 文献清单与获取方式
+│   └── README.md                 # 建库参数与文献处理流程
 ├── tools/
 │   ├── clean_pdf.py              # PDF 清洗
 │   ├── check_quality.py          # 清洗质量分类
@@ -165,7 +168,7 @@ jiangshu/
 │   └── recall-testset.md         # 24 题评测集
 ├── docs/
 │   ├── demo-script.md            # 演示脚本与问答预案
-│   └── screenshots/
+│   └── screenshots/              # 运行截图
 └── deploy/
     └── README.md                 # 部署踩坑记录
 ```
