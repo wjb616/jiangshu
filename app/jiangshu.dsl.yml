@@ -1,0 +1,223 @@
+app:
+  description: 面向中小注塑厂的工艺知识助手
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: advanced-chat
+  name: 匠枢
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/siliconflow:0.0.64@6cf29a175480b384dcada3791849b2c30dfcff5d4ad2ee4b7eeb0dcd7c2b817f
+    version: null
+kind: app
+site:
+  chat_color_theme: null
+  chat_color_theme_inverted: false
+  copyright: null
+  custom_disclaimer: ''
+  default_language: zh-Hans
+  description: null
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  input_placeholder: null
+  privacy_policy: null
+  show_workflow_steps: true
+  title: 匠枢
+  use_icon_as_answer_icon: false
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload: {}
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: knowledge-retrieval
+      id: 1793928083911-source-1793928156610-target
+      source: '1793928083911'
+      sourceHandle: source
+      target: '1793928156610'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1793928156610-source-llm-target
+      source: '1793928156610'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: llm-answer
+      source: llm
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入
+        type: start
+        variables: []
+      height: 73
+      id: '1793928083911'
+      position:
+        x: 18.603119417997505
+        y: 261
+      positionAbsolute:
+        x: 18.603119417997505
+        y: 261
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        dataset_ids:
+        - pGSfAB9ZCIFoTY3ptXVa695CMCms3/AnsOoobg0BixfRoKd6PRAiO/WXVFJ5rK9/
+        - 2TZM9R3qavfuDVbJ/S1ktyFjZB6qSCwZCRtkuBNuvGI6sjgLWCeqU6rdHtjk38r1
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            model: BAAI/bge-reranker-v2-m3
+            provider: langgenius/siliconflow/siliconflow
+          score_threshold: null
+          top_k: 4
+          weights: null
+        query_attachment_selector: []
+        query_variable_selector:
+        - '1793928083911'
+        - sys.query
+        retrieval_mode: multiple
+        selected: false
+        title: 知识检索
+        type: knowledge-retrieval
+      height: 118
+      id: '1793928156610'
+      position:
+        x: 378.90920226581045
+        y: 282
+      positionAbsolute:
+        x: 378.90920226581045
+        y: 282
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        answer: '{{#llm.text#}}'
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 102
+      id: answer
+      position:
+        x: 1010.0719415095523
+        y: 275.73501218550996
+      positionAbsolute:
+        x: 1010.0719415095523
+        y: 275.73501218550996
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1793928156610'
+          - result
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: deepseek-ai/DeepSeek-V3
+          provider: langgenius/siliconflow/siliconflow
+        model_selector: null
+        prompt_template:
+        - id: 4523bf9c-5a15-4031-958d-d835ebe65f3e
+          role: system
+          text: '你是匠枢，面向中小注塑厂的工艺知识助手，使用者是技术员和调机师傅。
+
+
+            1. 只依据【检索内容】作答。
+
+            2. 检索内容足够时，直接给对策：结论先行，分点陈述，每条都能直接执行。
+
+            3. 检索内容只够定性时，只给定性建议，并在结尾用一句话说明"知识库未收录具体数值，需按你的机台和制品试模确定"。不要在每一句后面重复这句话。
+
+            4. 禁止出现检索内容中未出现的：材料牌号、公司名、百分比、秒数、温度值、公式、文档名。包括以"建议""大约""比如"开头的估算，也不允许。
+
+            5. 若问题涉及客户案例、商业合作、价格、市场数据，直接回答"知识库中不包含此类信息"，不要转移到其他话题。
+
+            6. 用中文口语，不要"依据是""综上所述"这类转折词。不要自己写来源，系统会自动标注引用。
+
+            '
+        - id: a69d6531-d9d5-435f-8f1c-7e53c98dea40
+          role: user
+          text: '{{#sys.query#}}'
+        reasoning_format: separated
+        selected: false
+        title: LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: llm
+      position:
+        x: 726.3609098272266
+        y: 269.47002437101986
+      positionAbsolute:
+        x: 726.3609098272266
+        y: 269.47002437101986
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    viewport:
+      x: 56.91399817966271
+      y: 147.7131103113909
+      zoom: 0.7980861492556598
+  rag_pipeline_variables: []
