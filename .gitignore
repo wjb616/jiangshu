@@ -1,0 +1,27 @@
+# 依赖
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 环境与密钥（绝对不能提交）
+.env
+.env.*
+!.env.example
+*.key
+secrets/
+
+# 原始文献与清洗产物（版权原因不公开分发）
+knowledge/raw/
+knowledge/clean/
+*.pdf
+*.txt
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 日志
+*.log
